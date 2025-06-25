@@ -1,50 +1,126 @@
-import React, { useEffect, useState } from "react";
-import Airtable from "airtable";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import {
+  Globe,
+  Linkedin,
+  Github,
+  Facebook,
+  Twitter,
+  Youtube,
+  Instagram,
+  Music,
+  Shirt,
+  Film,
+  Headphones,
+} from "lucide-react";
 import "./App.css";
-const apiKey = process.env.REACT_APP_AIRTABLE_API_KEY;
-const baseId = process.env.REACT_APP_AIRTABLE_BASE_ID;
-const tableName = process.env.REACT_APP_AIRTABLE_TABLE_NAME || "Links";
+
+// Icon mapping function
+const getIconForLink = (linkName) => {
+  const iconProps = { size: 18, strokeWidth: 2 };
+
+  switch (linkName.toLowerCase()) {
+    case "website":
+      return <Globe {...iconProps} />;
+    case "linkedin":
+      return <Linkedin {...iconProps} />;
+    case "github":
+      return <Github {...iconProps} />;
+    case "facebook":
+      return <Facebook {...iconProps} />;
+    case "twitter":
+      return <Twitter {...iconProps} />;
+    case "youtube":
+      return <Youtube {...iconProps} />;
+    case "instagram":
+      return <Instagram {...iconProps} />;
+    case "spotify":
+    case "apple music":
+      return <Music {...iconProps} />;
+    case "wherring":
+      return <Shirt {...iconProps} />;
+    case "letterboxd":
+      return <Film {...iconProps} />;
+    case "cosmos":
+      return <Headphones {...iconProps} />;
+    default:
+      return <Globe {...iconProps} />;
+  }
+};
+
+const linkCategories = [
+  {
+    name: "Sun Rot Studios",
+    links: [
+      { name: "Website", url: "http://www.sunrotstudios.com" },
+      {
+        name: "LinkedIn",
+        url: "https://www.linkedin.com/company/sunrotstudios/about/?viewAsMember=true",
+      },
+      { name: "Github", url: "https://github.com/sunrotstudios" },
+      {
+        name: "Facebook",
+        url: "https://www.facebook.com/profile.php?id=61576240667177",
+      },
+      { name: "Twitter", url: "https://x.com/sunrotstudios" },
+      { name: "YouTube", url: "https://www.youtube.com/@sunrotstudios" },
+      { name: "Cosmos", url: "https://www.cosmos.so/sunrotstudios" },
+    ],
+  },
+  {
+    name: "Social",
+    links: [
+      { name: "LinkedIn", url: "https://www.linkedin.com/in/brennanpollock/" },
+      {
+        name: "Instagram",
+        url: "https://www.instagram.com/brennankeithpollock/",
+      },
+      {
+        name: "Facebook",
+        url: "https://www.facebook.com/profile.php?id=61576731083028",
+      },
+      { name: "Github", url: "https://github.com/brennankapollock" },
+    ],
+  },
+  {
+    name: "My Favorites",
+    links: [
+      {
+        name: "Wherring",
+        url: "https://app.whering.co.uk/profile/brennankapollock/pieces",
+      },
+      { name: "Letterboxd", url: "https://letterboxd.com/breninvenice/" },
+    ],
+  },
+  {
+    name: "Playlists",
+    links: [
+      {
+        name: "Spotify",
+        url: "https://open.spotify.com/user/31zlcrd53et4wdhiau73uucggyg4",
+      },
+      { name: "Apple Music", url: "https://music.apple.com/profile/yoctangee" },
+    ],
+  },
+];
 
 function App() {
-  const [links, setLinks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [openCategory, setOpenCategory] = useState(null);
 
-  useEffect(() => {
-    const base = new Airtable({ apiKey }).base(baseId);
-    base(tableName)
-      .select({
-        sort: [{ field: "Order", direction: "asc" }],
-      })
-      .all()
-      .then((records) => {
-        setLinks(
-          records.map((record) => ({
-            id: record.id,
-            name: record.get("Name"),
-            url: record.get("URL"),
-            description: record.get("Description"),
-          }))
-        );
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError("Failed to load links.");
-        setLoading(false);
-      });
-  }, []);
+  const handleToggle = (categoryName) => {
+    setOpenCategory((prev) => (prev === categoryName ? null : categoryName));
+  };
 
   return (
     <div className="bio-root">
-      <motion.main 
-        className="bio-main" 
+      <motion.main
+        className="bio-main"
         style={{ position: "relative", zIndex: 1 }}
         initial={{ opacity: 0, y: 50, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <motion.h1 
+        <motion.h1
           className="bio-title"
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -52,84 +128,101 @@ function App() {
         >
           Brennan Pollock
         </motion.h1>
-        <motion.p 
+        <motion.p
           className="bio-desc"
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          engineer and artist
+          artist and engineer
         </motion.p>
-        
-        <AnimatePresence mode="wait">
-          {loading && (
-            <motion.div 
-              className="loading-container"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="loading-spinner"></div>
-            </motion.div>
-          )}
-          
-          {error && (
-            <motion.p 
-              style={{ color: "red" }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              {error}
-            </motion.p>
-          )}
-          
-          {!loading && !error && (
-            <motion.nav 
-              className="bio-links"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-            >
-              {links.map((link, index) => (
-                <motion.a
-                  key={link.id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ 
-                    duration: 0.4, 
-                    delay: 0.2 + index * 0.1,
-                    ease: "easeOut"
-                  }}
-                  whileHover={{ 
-                    x: 5,
-                    transition: { duration: 0.2 }
-                  }}
-                  whileTap={{ scale: 0.98 }}
+        <nav className="bio-links">
+          {linkCategories.map((category, idx) => (
+            <div key={category.name} style={{ width: "100%" }}>
+              <motion.button
+                className="category-toggle"
+                onClick={() => handleToggle(category.name)}
+                initial={false}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  fontWeight: 700,
+                  fontSize: "1.1rem",
+                  border: "none",
+                  background: "none",
+                  padding: "0.5rem 0",
+                  cursor: "pointer",
+                  outline: "none",
+                  marginBottom: "0.2rem",
+                  borderBottom: "2px solid #111",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+                whileHover={{ x: 5 }}
+              >
+                {category.name}
+                <motion.span
+                  initial={false}
+                  animate={{ rotate: openCategory === category.name ? 90 : 0 }}
+                  style={{ display: "inline-block", marginLeft: 8 }}
                 >
-                  {link.name}
-                  {link.description ? (
-                    <span
+                  ▶
+                </motion.span>
+              </motion.button>
+              <AnimatePresence initial={false}>
+                {openCategory === category.name && (
+                  <motion.div
+                    key="content"
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
+                    style={{ overflow: "hidden" }}
+                  >
+                    <ul
                       style={{
-                        fontWeight: 400,
-                        fontSize: "0.9rem",
-                        marginLeft: 8,
-                        opacity: 0.7,
+                        listStyle: "none",
+                        padding: 0,
+                        margin: "0.5rem 0 1rem 0",
                       }}
                     >
-                      {link.description}
-                    </span>
-                  ) : null}
-                </motion.a>
-              ))}
-            </motion.nav>
-          )}
-        </AnimatePresence>
+                      {category.links.map((link) => (
+                        <li key={link.url} style={{ marginBottom: "0.5rem" }}>
+                          <motion.a
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                            whileHover={{ x: 5, color: "#555" }}
+                            whileTap={{ scale: 0.98 }}
+                            style={{
+                              fontWeight: 500,
+                              fontSize: "1rem",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.75rem",
+                            }}
+                          >
+                            <motion.span
+                              whileHover={{ scale: 1.1 }}
+                              style={{ display: "flex", alignItems: "center" }}
+                            >
+                              {getIconForLink(link.name)}
+                            </motion.span>
+                            {link.name}
+                          </motion.a>
+                        </li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ))}
+        </nav>
       </motion.main>
     </div>
   );
