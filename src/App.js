@@ -20,7 +20,11 @@ import "./App.css";
 posthog.init(process.env.REACT_APP_POSTHOG_KEY || 'phc_placeholder', {
   api_host: process.env.REACT_APP_POSTHOG_HOST || 'https://us.i.posthog.com',
   person_profiles: 'identified_only',
-  capture_pageview: false // We'll handle this manually
+  capture_pageview: true, // Enable automatic pageview tracking
+  capture_pageleave: true, // Enable automatic pageleave tracking
+  loaded: (posthog) => {
+    if (process.env.NODE_ENV === 'development') console.log('PostHog loaded')
+  }
 });
 
 // Icon mapping function
@@ -115,12 +119,11 @@ const linkCategories = [
 function App() {
   const [openCategory, setOpenCategory] = useState(null);
 
-  // Track page view on component mount
+  // PostHog will automatically track pageviews and pageleaves
   useEffect(() => {
-    posthog.capture('page_view', {
-      page: 'link_bio',
-      timestamp: new Date().toISOString(),
-      user_agent: navigator.userAgent,
+    // Optional: Set user properties for better analytics
+    posthog.setPersonProperties({
+      page_type: 'link_bio',
       screen_width: window.screen.width,
       screen_height: window.screen.height
     });
