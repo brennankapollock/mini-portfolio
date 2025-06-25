@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Telefax";
-  src: url("./fonts/TelefaxTM.ttf") format("truetype");
+  src: url("./fonts/Telefax TM.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -55,11 +55,9 @@ html,
 }
 
 .bio-title {
-  font-family: "Bootzy", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "Telefax", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 2.5rem;
-  font-weight: 900;
   margin: 0 0 1rem 0;
-  letter-spacing: 3px;
   text-transform: lowercase;
 }
 
@@ -70,7 +68,10 @@ html,
   margin: 0 0 2rem 0;
   line-height: 1.4;
   letter-spacing: 2px;
-  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .bio-links {
