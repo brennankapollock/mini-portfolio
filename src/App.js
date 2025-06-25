@@ -260,6 +260,8 @@ function App() {
                               display: "flex",
                               alignItems: "center",
                               gap: "0.75rem",
+                              color: "#111",
+                              textDecoration: "none",
                             }}
                           >
                             <motion.span
