@@ -134,7 +134,9 @@ function App() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          artist and engineer
+          <span>artist</span>
+          <span>&</span>
+          <span>engineer</span>
         </motion.p>
         <nav className="bio-links">
           {linkCategories.map((category, idx) => (
