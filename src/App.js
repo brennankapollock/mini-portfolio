@@ -17,14 +17,14 @@ import posthog from "posthog-js";
 import "./App.css";
 
 // Initialize PostHog
-posthog.init(process.env.REACT_APP_POSTHOG_KEY || 'phc_placeholder', {
-  api_host: process.env.REACT_APP_POSTHOG_HOST || 'https://us.i.posthog.com',
-  person_profiles: 'identified_only',
+posthog.init(process.env.REACT_APP_POSTHOG_KEY || "phc_placeholder", {
+  api_host: process.env.REACT_APP_POSTHOG_HOST || "https://us.i.posthog.com",
+  person_profiles: "identified_only",
   capture_pageview: true, // Enable automatic pageview tracking
   capture_pageleave: true, // Enable automatic pageleave tracking
   loaded: (posthog) => {
-    if (process.env.NODE_ENV === 'development') console.log('PostHog loaded')
-  }
+    if (process.env.NODE_ENV === "development") console.log("PostHog loaded");
+  },
 });
 
 // Icon mapping function
@@ -95,7 +95,7 @@ const linkCategories = [
     ],
   },
   {
-    name: "My Favorites",
+    name: "Media & Fashion",
     links: [
       {
         name: "Wherring",
@@ -123,41 +123,41 @@ function App() {
   useEffect(() => {
     // Optional: Set user properties for better analytics
     posthog.setPersonProperties({
-      page_type: 'link_bio',
+      page_type: "link_bio",
       screen_width: window.screen.width,
-      screen_height: window.screen.height
+      screen_height: window.screen.height,
     });
   }, []);
 
   const handleToggle = (categoryName) => {
     const isOpening = openCategory !== categoryName;
     setOpenCategory((prev) => (prev === categoryName ? null : categoryName));
-    
+
     // Track category toggle
-    posthog.capture('category_toggled', {
+    posthog.capture("category_toggled", {
       category: categoryName,
-      action: isOpening ? 'expand' : 'collapse',
-      timestamp: new Date().toISOString()
+      action: isOpening ? "expand" : "collapse",
+      timestamp: new Date().toISOString(),
     });
   };
 
   const handleLinkClick = (link, category) => {
     // Track link clicks
-    posthog.capture('link_clicked', {
+    posthog.capture("link_clicked", {
       link_name: link.name,
       link_url: link.url,
       category: category,
       timestamp: new Date().toISOString(),
-      link_domain: new URL(link.url).hostname
+      link_domain: new URL(link.url).hostname,
     });
   };
 
   const handleLinkHover = (link, category) => {
     // Track link hovers for engagement analysis
-    posthog.capture('link_hovered', {
+    posthog.capture("link_hovered", {
       link_name: link.name,
       category: category,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   };
 
@@ -251,7 +251,9 @@ function App() {
                             transition={{ duration: 0.4, ease: "easeOut" }}
                             whileHover={{ x: 5, color: "#555" }}
                             whileTap={{ scale: 0.98 }}
-                            onMouseEnter={() => handleLinkHover(link, category.name)}
+                            onMouseEnter={() =>
+                              handleLinkHover(link, category.name)
+                            }
                             style={{
                               fontWeight: 500,
                               fontSize: "1rem",
