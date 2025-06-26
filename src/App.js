@@ -210,6 +210,8 @@ function App() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
+                  color: "#111",
+                  WebkitTextFillColor: "#111"
                 }}
                 whileHover={{ x: 5 }}
               >

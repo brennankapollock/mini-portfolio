@@ -44,6 +44,23 @@ ul li a[target="_blank"]:focus {
   text-decoration: none !important;
 }
 
+/* Category toggle buttons */
+.category-toggle,
+.category-toggle:hover,
+.category-toggle:active,
+.category-toggle:focus {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+}
+
+button.category-toggle,
+button.category-toggle:hover,
+button.category-toggle:active,
+button.category-toggle:focus {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+}
+
 body,
 html,
 #root,
