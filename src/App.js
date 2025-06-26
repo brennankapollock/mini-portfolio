@@ -249,7 +249,7 @@ function App() {
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.4, ease: "easeOut" }}
-                            whileHover={{ x: 5, color: "#555" }}
+                            whileHover={{ x: 5, color: "#222" }}
                             whileTap={{ scale: 0.98 }}
                             onMouseEnter={() =>
                               handleLinkHover(link, category.name)

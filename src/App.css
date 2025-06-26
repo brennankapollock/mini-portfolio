@@ -6,6 +6,13 @@
   font-display: swap;
 }
 
+/* Global link reset */
+a, a:visited, a:hover, a:active, a:focus {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+  text-decoration: none !important;
+}
+
 body,
 html,
 #root,
