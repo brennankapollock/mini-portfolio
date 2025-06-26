@@ -13,6 +13,13 @@ a, a:visited, a:hover, a:active, a:focus {
   text-decoration: none !important;
 }
 
+.bio-link, .bio-link:visited, .bio-link:hover, .bio-link:active, .bio-link:focus {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+  text-decoration: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
 body,
 html,
 #root,

@@ -241,37 +241,31 @@ function App() {
                     >
                       {category.links.map((link) => (
                         <li key={link.url} style={{ marginBottom: "0.5rem" }}>
-                          <motion.a
+                          <a
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={() => handleLinkClick(link, category.name)}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.4, ease: "easeOut" }}
-                            whileHover={{ x: 5, color: "#222" }}
-                            whileTap={{ scale: 0.98 }}
                             onMouseEnter={() =>
                               handleLinkHover(link, category.name)
                             }
+                            className="bio-link"
                             style={{
                               fontWeight: 500,
                               fontSize: "1rem",
                               display: "flex",
                               alignItems: "center",
                               gap: "0.75rem",
-                              color: "#111",
-                              textDecoration: "none",
+                              color: "#111 !important",
+                              textDecoration: "none !important",
+                              WebkitTextFillColor: "#111 !important"
                             }}
                           >
-                            <motion.span
-                              whileHover={{ scale: 1.1 }}
-                              style={{ display: "flex", alignItems: "center" }}
-                            >
+                            <span style={{ display: "flex", alignItems: "center" }}>
                               {getIconForLink(link.name)}
-                            </motion.span>
+                            </span>
                             {link.name}
-                          </motion.a>
+                          </a>
                         </li>
                       ))}
                     </ul>
