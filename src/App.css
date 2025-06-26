@@ -105,6 +105,30 @@ html,
   color: #555;
 }
 
+/* Mobile-specific link styling */
+@media (max-width: 500px) {
+  .bio-links a {
+    color: #111 !important;
+    -webkit-text-fill-color: #111 !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  
+  .bio-links a:visited {
+    color: #111 !important;
+    -webkit-text-fill-color: #111 !important;
+  }
+  
+  .bio-links a:hover {
+    color: #222 !important;
+    -webkit-text-fill-color: #222 !important;
+  }
+  
+  .bio-links a:active {
+    color: #111 !important;
+    -webkit-text-fill-color: #111 !important;
+  }
+}
+
 .loading-spinner {
   display: inline-block;
   width: 40px;
