@@ -256,9 +256,11 @@ function App() {
                               display: "flex",
                               alignItems: "center",
                               gap: "0.75rem",
-                              color: "#111 !important",
-                              textDecoration: "none !important",
-                              WebkitTextFillColor: "#111 !important"
+                              color: "rgb(17, 17, 17)",
+                              textDecoration: "none",
+                              WebkitTextFillColor: "rgb(17, 17, 17)",
+                              border: "none",
+                              outline: "none"
                             }}
                           >
                             <span style={{ display: "flex", alignItems: "center" }}>

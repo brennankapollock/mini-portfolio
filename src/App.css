@@ -20,6 +20,30 @@ a, a:visited, a:hover, a:active, a:focus {
   -webkit-tap-highlight-color: transparent !important;
 }
 
+/* Ultra specific targeting */
+.bio-main .bio-links ul li a,
+.bio-main .bio-links ul li a:visited,
+.bio-main .bio-links ul li a:hover,
+.bio-main .bio-links ul li a:active,
+.bio-main .bio-links ul li a:focus,
+.bio-main .bio-links ul li a:link {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+  text-decoration: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Even more specific with data attributes */
+ul li a[target="_blank"],
+ul li a[target="_blank"]:visited,
+ul li a[target="_blank"]:hover,
+ul li a[target="_blank"]:active,
+ul li a[target="_blank"]:focus {
+  color: #111 !important;
+  -webkit-text-fill-color: #111 !important;
+  text-decoration: none !important;
+}
+
 body,
 html,
 #root,
