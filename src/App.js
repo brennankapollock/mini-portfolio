@@ -1,64 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Globe,
-  Linkedin,
-  Github,
-  Facebook,
-  Twitter,
-  Youtube,
-  Instagram,
-  Music,
-  Shirt,
-  Film,
-  Headphones,
-} from "lucide-react";
-import posthog from "posthog-js";
 import "./App.css";
-
-// Initialize PostHog
-posthog.init(process.env.REACT_APP_POSTHOG_KEY || "phc_placeholder", {
-  api_host: process.env.REACT_APP_POSTHOG_HOST || "https://us.i.posthog.com",
-  person_profiles: "identified_only",
-  capture_pageview: true, // Enable automatic pageview tracking
-  capture_pageleave: true, // Enable automatic pageleave tracking
-  loaded: (posthog) => {
-    if (process.env.NODE_ENV === "development") console.log("PostHog loaded");
-  },
-});
-
-// Icon mapping function
-const getIconForLink = (linkName) => {
-  const iconProps = { size: 18, strokeWidth: 2 };
-
-  switch (linkName.toLowerCase()) {
-    case "website":
-      return <Globe {...iconProps} />;
-    case "linkedin":
-      return <Linkedin {...iconProps} />;
-    case "github":
-      return <Github {...iconProps} />;
-    case "facebook":
-      return <Facebook {...iconProps} />;
-    case "twitter":
-      return <Twitter {...iconProps} />;
-    case "youtube":
-      return <Youtube {...iconProps} />;
-    case "instagram":
-      return <Instagram {...iconProps} />;
-    case "spotify":
-    case "apple music":
-      return <Music {...iconProps} />;
-    case "wherring":
-      return <Shirt {...iconProps} />;
-    case "letterboxd":
-      return <Film {...iconProps} />;
-    case "cosmos":
-      return <Headphones {...iconProps} />;
-    default:
-      return <Globe {...iconProps} />;
-  }
-};
 
 const linkCategories = [
   {
@@ -95,7 +37,7 @@ const linkCategories = [
     ],
   },
   {
-    name: "Media & Fashion",
+    name: "My Favorites",
     links: [
       {
         name: "Wherring",
@@ -119,46 +61,8 @@ const linkCategories = [
 function App() {
   const [openCategory, setOpenCategory] = useState(null);
 
-  // PostHog will automatically track pageviews and pageleaves
-  useEffect(() => {
-    // Optional: Set user properties for better analytics
-    posthog.setPersonProperties({
-      page_type: "link_bio",
-      screen_width: window.screen.width,
-      screen_height: window.screen.height,
-    });
-  }, []);
-
   const handleToggle = (categoryName) => {
-    const isOpening = openCategory !== categoryName;
     setOpenCategory((prev) => (prev === categoryName ? null : categoryName));
-
-    // Track category toggle
-    posthog.capture("category_toggled", {
-      category: categoryName,
-      action: isOpening ? "expand" : "collapse",
-      timestamp: new Date().toISOString(),
-    });
-  };
-
-  const handleLinkClick = (link, category) => {
-    // Track link clicks
-    posthog.capture("link_clicked", {
-      link_name: link.name,
-      link_url: link.url,
-      category: category,
-      timestamp: new Date().toISOString(),
-      link_domain: new URL(link.url).hostname,
-    });
-  };
-
-  const handleLinkHover = (link, category) => {
-    // Track link hovers for engagement analysis
-    posthog.capture("link_hovered", {
-      link_name: link.name,
-      category: category,
-      timestamp: new Date().toISOString(),
-    });
   };
 
   return (
@@ -184,9 +88,7 @@ function App() {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
         >
-          <span>artist</span>
-          <span>&</span>
-          <span>engineer</span>
+          engineer and artist
         </motion.p>
         <nav className="bio-links">
           {linkCategories.map((category, idx) => (
@@ -195,6 +97,10 @@ function App() {
                 className="category-toggle"
                 onClick={() => handleToggle(category.name)}
                 initial={false}
+                animate={{
+                  backgroundColor:
+                    openCategory === category.name ? "#f5f5f5" : "#fff",
+                }}
                 style={{
                   width: "100%",
                   textAlign: "left",
@@ -210,8 +116,6 @@ function App() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  color: "#111",
-                  WebkitTextFillColor: "#111"
                 }}
                 whileHover={{ x: 5 }}
               >
@@ -243,33 +147,19 @@ function App() {
                     >
                       {category.links.map((link) => (
                         <li key={link.url} style={{ marginBottom: "0.5rem" }}>
-                          <a
+                          <motion.a
                             href={link.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            onClick={() => handleLinkClick(link, category.name)}
-                            onMouseEnter={() =>
-                              handleLinkHover(link, category.name)
-                            }
-                            className="bio-link"
-                            style={{
-                              fontWeight: 500,
-                              fontSize: "1rem",
-                              display: "flex",
-                              alignItems: "center",
-                              gap: "0.75rem",
-                              color: "rgb(17, 17, 17)",
-                              textDecoration: "none",
-                              WebkitTextFillColor: "rgb(17, 17, 17)",
-                              border: "none",
-                              outline: "none"
-                            }}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                            whileHover={{ x: 5, color: "#555" }}
+                            whileTap={{ scale: 0.98 }}
+                            style={{ fontWeight: 500, fontSize: "1rem" }}
                           >
-                            <span style={{ display: "flex", alignItems: "center" }}>
-                              {getIconForLink(link.name)}
-                            </span>
                             {link.name}
-                          </a>
+                          </motion.a>
                         </li>
                       ))}
                     </ul>
